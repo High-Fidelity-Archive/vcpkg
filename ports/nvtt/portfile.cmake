@@ -5,27 +5,21 @@
 #   CURRENT_BUILDTREES_DIR = ${VCPKG_ROOT_DIR}\buildtrees\${PORT}
 #   CURRENT_PACKAGES_DIR  = ${VCPKG_ROOT_DIR}\packages\${PORT}_${TARGET_TRIPLET}
 #
-if (VCPKG_LIBRARY_LINKAGE STREQUAL dynamic)
-    message(STATUS "Warning: Dynamic building not supported yet. Building static.")
-    set(VCPKG_LIBRARY_LINKAGE static)
-    set(VCPKG_CRT_LINKAGE dynamic)
-endif()
-
 include(vcpkg_common_functions)
 
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO highfidelity/nvidia-texture-tools
-    REF a1f4c3c22c68554d8840dfe007e8aeefb2177ee0
-    SHA512 e1db56acbccfc5a4b8627f528b73ce01c1308392d2b6808ee290a719129b209488c2857ff8a8f5b83370ce3931ec2f85a98a940a59a1f8b18cc2cb6219394267
+    REF 3a34b0a4475d591e6e4a142d0fa4398c8d955db7
+    SHA512 086cbca1c7a1a6c247def0b5a39d81d16d97f51924330a13f7b44b1c55812dd454fdf3464c6f19ae3aaaefcf140fbec07d92924114562669a3fc57fe5621b519
     HEAD_REF master
 )
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     OPTIONS
-        -DNVTT_SHARED=0
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DBUILD_TESTS=OFF
+        -DBUILD_TOOLS=OFF
 )
 
 vcpkg_install_cmake()
